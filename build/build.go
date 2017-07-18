@@ -16,6 +16,7 @@ func main() {
 	fmt.Println("Testing application...")
 
 	guilder.exe("go build")
+	guilder.exe("docker build . -t gojitsu/endpoint-rest:0.0.0-SNAPSHOT")
 }
 
 // Guilder build library
