@@ -10,6 +10,8 @@ import (
 )
 
 func handler(writer http.ResponseWriter, request *http.Request) {
+	tenant := tenant(&request.Header)
+
 	path := strings.Split(request.URL.Path, "/")
 
 	defer request.Body.Close()
@@ -30,7 +32,7 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 			}
 		}()
 
-		msg := &sarama.ProducerMessage{Topic: "data." + event.StreamName, Key: sarama.StringEncoder(event.Key), Value: sarama.StringEncoder(event.Body)}
+		msg := &sarama.ProducerMessage{Topic: tenant +  ".data." + event.StreamName, Key: sarama.StringEncoder(event.Key), Value: sarama.StringEncoder(event.Body)}
 		partition, offset, err := producer.SendMessage(msg)
 		if err != nil {
 			log.Printf("FAILED to send message: %s\n", err)
@@ -50,6 +52,10 @@ func handler(writer http.ResponseWriter, request *http.Request) {
 func main() {
 	http.HandleFunc("/", handler)
 	http.ListenAndServe(":8080", nil)
+}
+
+func tenant(headers *http.Header) string  {
+	return "anonymous"
 }
 
 // Data types
