@@ -9,8 +9,8 @@ import (
 func main() {
 	guilder := Guilder{}
 
-	guilder.ExecJoined("docker run --net=host hekonsek/streamshift-zookeeper:0.0.1-SNAPSHOT")
-	guilder.ExecJoined("docker run --net=host hekonsek/streamshift-kafka:0.0.1-SNAPSHOT")
+	guilder.ExecJoined("docker run -d --net=host hekonsek/streamshift-zookeeper:0.0.1-SNAPSHOT")
+	guilder.ExecJoined("docker run -d --net=host hekonsek/streamshift-kafka:0.0.1-SNAPSHOT")
 
 	guilder.AssumeExecNotContains("go test", "FAIL", "Tests succeeded.")
 
