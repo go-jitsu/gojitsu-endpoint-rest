@@ -1,4 +1,6 @@
-FROM fedora
+FROM fedora:26
+
+MAINTAINER hekonsek@gmail.com
 
 ADD gojitsu-endpoint-rest /usr/bin/
 
